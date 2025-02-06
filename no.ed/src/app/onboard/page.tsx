@@ -46,11 +46,11 @@ const TagSelector: React.FC<TagSelectorProps> = ({ onComplete }) => {
                     throw new Error('Failed to fetch recommended roles');
                 }
 
-                const roles = await response.json(); // Assuming the response is an array of roles
+                const roles = await response.json();
                 console.log(roles);
                 
                 // Navigate to /roles page with roles as state
-                // router.push(`/roles?data=${encodeURIComponent(JSON.stringify(roles))}`);
+                router.push(`/roles?data=${encodeURIComponent(roles)}`);
             } catch (error) {
                 console.error(error);
             } finally {
