@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Navbar from "@/component/sidenavbar";
+import Loading from "@/component/loading";
+import { json } from "stream/consumers";
 function Hello() {
 
     const [output, setOutput] = useState({ answer: [{topic:" ",outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "},{topic:" ",subtopics:[" "," "," "," "," "," "],outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "},{topic : " ",outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "}] });
@@ -31,6 +33,7 @@ function Hello() {
     const fetchData = async () => {
 
         try {
+          if(!localStorage.getItem("roadMap")){
           console.log("Data",data)
             const response = await axios.post(
                 "http://3.108.217.83:5000/roadmap", 
@@ -43,7 +46,10 @@ function Hello() {
             );
             console.log(response);
             setOutput(response.data);
-            
+            localStorage.setItem("roadMap",JSON.stringify(response.data));
+          }else{
+            setOutput(localStorage.getItem("roadMap"));
+          }
         } catch (err) {
             console.log("Error fetching data:", err);
         }
@@ -96,8 +102,8 @@ function Hello() {
             Loading....
         </motion.div>
     );
-    if(!output){
-      return <div>Loading...</div>
+    if(!output.answer[0].subtopics){
+      return <Loading/>
     }
     return ( 
       <div className="flex gap-x-28">
@@ -118,7 +124,7 @@ function Hello() {
                     onClick={() => handleClick(output.answer[0])} 
                     className="rounded-2xl bg-white flex flex-col gap-8 p-4 hover:bg-black hover:text-white duration-500 transition-all border border-black h-2/3 w-full cursor-pointer"
                 >
-                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[0].topic}</div>
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[0]?.topic}</div>
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
                        <ul className="list-disc list-inside font-tripSansMono">

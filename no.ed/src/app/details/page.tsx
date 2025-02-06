@@ -19,6 +19,7 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
     const router = useRouter();
     const searchParams = useSearchParams();
     useEffect(() => {
+        localStorage.clear();
         const role = searchParams.get("selectedTag");
 
         try {
