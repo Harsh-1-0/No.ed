@@ -84,7 +84,7 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
                     <div className="p-3 rounded-lg shadow-sm font-tripSansMono font-bold transition-all text-2xl bg-white hover:bg-gray-50 border border-gray-200 h-full">
                         <div className="flex flex-col items-center justify-center h-80 border-dashed border-black border-4 bg-[#9747FF40]">
                             <Image src={github} alt="Chipchop" className='h-20 w-20'/>
-                            <h3>Github Link< /h3>
+                            <h3>Github Link</h3>
                             <input
                                 type="text"
                                 className="p-4 rounded-xl bg-transparent border-black border-4 mt-2 "
