@@ -4,3 +4,4 @@
 /no.ed/.env
 /backend/parser/node_modules
 /backend/parser/.env
+.vercel
