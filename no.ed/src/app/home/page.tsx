@@ -1,9 +1,10 @@
-/* eslint-disable react/jsx-key */
 "use client";
 import { useRouter } from "next/navigation";
-import {useState,useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { motion } from "framer-motion";
+import Navbar from "@/component/sidenavbar";
+import { div } from "framer-motion/client";
 function Hello({ data }) {
     const [output, setData] = useState({
   "answer": [
@@ -133,7 +134,7 @@ function Hello({ data }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post("http://3.108.217.83:5000/recommend_roles",data);
+                const response = await axios.post("http://3.108.217.83:5000/recommend_roles", data);
                 setData(response.data);
             } catch (err) {
                 console.error("Error fetching data:", err);
@@ -142,93 +143,170 @@ function Hello({ data }) {
         if(data) fetchData();
     }, [data]);
     
-  const router = useRouter();
-  const handleClick = (data:any) => {
-    const query = encodeURIComponent(JSON.stringify(data));
-    router.push(`/content?data=${query}`);
-};
+    const router = useRouter();
+    const handleClick = (data:any) => {
+        const query = encodeURIComponent(JSON.stringify(data));
+        router.push(`/content?data=${query}`);
+    };
 
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: { 
+            opacity: 1,
+            transition: {
+                delayChildren: 0.2,
+                staggerChildren: 0.1
+            }
+        }
+    };
 
-    if(!output) return <div className="text-black text-center">Loading....</div>;
+    const itemVariants = {
+        hidden: { y: 20, opacity: 0 },
+        visible: { 
+            y: 0, 
+            opacity: 1,
+            transition: {
+                type: "spring",
+                stiffness: 300,
+                damping: 24
+            }
+        },
+        hover: { 
+            scale: 1.05,
+            transition: { duration: 0.2 }
+        }
+    };
+
+    if(!output) return (
+        <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-black text-center"
+        >
+            Loading....
+        </motion.div>
+    );
+
     return ( 
-        <div  className="flex  rounded  bg-black  border-2  items-center justify-center h-screen">
-            <div  className="w-1/3  h-full bg-black flex flex-col items-center justify-center">
-                <div onClick={() => handleClick(output.answer[0])} className="rounded-2xl bg-white flex flex-col gap-8 p-4 hover:bg-black hover:text-white duration-500 transition-all border  border-black h-2/3 w-full">
-                    <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[0].topic}</div>
+      <div className="flex">
+        <div>
+        <Navbar/>
+        </div>
+        <div>
+        <motion.div 
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+            className="flex py-8 rounded bg-white border-black border-5 items-center justify-center h-screen"
+        >
+            <div className="w-1/3 h-full bg-black flex flex-col items-center justify-center">
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[0])} 
+                    className="rounded-2xl bg-white flex flex-col gap-8 p-4 hover:bg-black hover:text-white duration-500 transition-all border border-black h-2/3 w-full cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[0].topic}</div>
                     <div>
-                    <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
-                    <ul className="list-disc list-inside font-tripSansMono">
-                        {output.answer[0].subtopics.slice(0, 6).map((subtopic, key) => {
-                            return <li key={key}> {subtopic}</li>;
-                        })}
-                    </ul>
+                        <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
+                        <ul className="list-disc list-inside font-tripSansMono">
+                            {output.answer[0].subtopics.slice(0, 6).map((subtopic, key) => (
+                                <li key={key}>{subtopic}</li>
+                            ))}
+                        </ul>
                     </div>
-                  
-                <div>
-                    <div className=" font-tripSansMono font-bold text-3xl">Outcome</div>
-                    <div className="font-tripSansMono">{output.answer[0].outcome_of_learning_30_words}</div>
-                    </div>
-                </div>
-                <div onClick={() => handleClick(output.answer[1])} className="rounded-2xl bg-white  p-4 flex flex-col gap-4 hover:bg-black hover:text-white duration-500 transition-all border-black h-1/3 w-full ">
-                    <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[1].topic}</div>
-                <div>
-                    <div className=" font-tripSansMono font-bold text-3xl">Outcome</div>
-                    <div className="font-tripSansMono">{output.answer[0].outcome_of_learning_30_words}</div>
-                    </div>
-                </div>
-            </div>
-            <div  className="w-1/3   h-full  bg-black flex flex-col items-center justify-center">
-                <div onClick={() => handleClick(output.answer[2])} className="rounded-2xl bg-white border-black flex flex-col hover:text-white hover:bg-black duration-500 transition-all justify-center border w-full h-1/6 p-4">
-                  <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[2].topic}</div>
-                </div>
-                <div onClick={() => handleClick(output.answer[3])} className="rounded-2xl bg-white hover:text-white hover:bg-black duration-500 transition-all border-black border p-4 gap-8 flex flex-col  w-full h-4/6">
-                  <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[3].topic}</div>
                     <div>
-                    <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
-                    <ul className="list-disc list-inside font-tripSansMono">
-                        {output.answer[3].subtopics.slice(0, 6).map((subtopic, key) => {
-                            return <li key={key}> {subtopic}</li>;
-                        })}
-                    </ul>
+                        <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
+                        <div className="font-tripSansMono">{output.answer[0].outcome_of_learning_30_words}</div>
                     </div>
-
-               <div>
-                    <div className=" font-tripSansMono font-bold text-3xl">Outcome</div>
-                    <div className="font-tripSansMono">{output.answer[3].outcome_of_learning_30_words}</div>
-                </div>
-                </div>
-                <div onClick={() => handleClick(output.answer[4])} className="rounded-2xl bg-white border-black flex flex-col hover:text-white hover:bg-black duration-500 transition-all justify-center border w-full h-1/6 p-4">
-                  <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[4].topic}</div>
-                </div>
+                </motion.div>
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[1])} 
+                    className="rounded-2xl bg-white p-4 flex flex-col gap-4 hover:bg-black hover:text-white duration-500 transition-all border-black h-1/3 w-full cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[1].topic}</div>
+                    <div>
+                        <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
+                        <div className="font-tripSansMono">{output.answer[0].outcome_of_learning_30_words}</div>
+                    </div>
+                </motion.div>
             </div>
-            <div className="w-1/3  h-full  flex  bg-black  flex-col items-center justify-center">
-                <div onClick={() => handleClick(output.answer[5])} className="rounded-2xl  flex flex-col gap-8 p-4 duration-500 transition-all hover:text-white hover:bg-black  bg-white w-full h-4/5 border-black border">
-                    <div className="text-5xl font-tripSansBold tracking-tight font-bold ">{output.answer[5].topic}</div>
-                     <div>
-                    <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
-                    <ul className="list-disc list-inside font-tripSansMono">
-                        {output.answer[3].subtopics.slice(0, 6).map((subtopic, key) => {
-                            return <li key={key}> {subtopic}</li>;
-                        })}
-                    </ul>
+            <div className="w-1/3 h-full bg-black flex flex-col items-center justify-center">
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[2])} 
+                    className="rounded-2xl bg-white border-black flex flex-col hover:text-white hover:bg-black duration-500 transition-all justify-center border w-full h-1/6 p-4 cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[2].topic}</div>
+                </motion.div>
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[3])} 
+                    className="rounded-2xl bg-white hover:text-white hover:bg-black duration-500 transition-all border-black border p-4 gap-8 flex flex-col w-full h-4/6 cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[3].topic}</div>
+                    <div>
+                        <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
+                        <ul className="list-disc list-inside font-tripSansMono">
+                            {output.answer[3].subtopics.slice(0, 6).map((subtopic, key) => (
+                                <li key={key}>{subtopic}</li>
+                            ))}
+                        </ul>
                     </div>
-                   
-                <div>
-                    <div className=" font-tripSansMono font-bold text-3xl">Outcome</div>
-                    <div className="font-tripSansMono">{output.answer[5].outcome_of_learning_30_words}</div>
-                </div>
-                </div>
+                    <div>
+                        <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
+                        <div className="font-tripSansMono">{output.answer[3].outcome_of_learning_30_words}</div>
+                    </div>
+                </motion.div>
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[4])} 
+                    className="rounded-2xl bg-white border-black flex flex-col hover:text-white hover:bg-black duration-500 transition-all justify-center border w-full h-1/6 p-4 cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[4].topic}</div>
+                </motion.div>
+            </div>
+            <div className="w-1/3 h-full flex bg-black flex-col items-center justify-center">
+                <motion.div 
+                    variants={itemVariants}
+                    whileHover="hover"
+                    onClick={() => handleClick(output.answer[5])} 
+                    className="rounded-2xl flex flex-col gap-8 p-4 duration-500 transition-all hover:text-white hover:bg-black bg-white w-full h-4/5 border-black border cursor-pointer"
+                >
+                    <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[5].topic}</div>
+                    <div>
+                        <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
+                        <ul className="list-disc list-inside font-tripSansMono">
+                            {output.answer[3].subtopics.slice(0, 6).map((subtopic, key) => (
+                                <li key={key}>{subtopic}</li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
+                        <div className="font-tripSansMono">{output.answer[5].outcome_of_learning_30_words}</div>
+                    </div>
+                </motion.div>
                 
-                <div className="rounded-2xl flex flex-col justify-center text-white bold text-center  text-5xl bg-[#FF4949] w-full h-1/5 border-black border">
+                <motion.div 
+                    variants={itemVariants}
+                    className="rounded-2xl flex flex-col justify-center text-white bold text-center text-5xl bg-[#FF4949] w-full h-1/5 border-black border"
+                >
                     <div>
                     TO UNLOCK :<br/>
                     {0}/7 COMPLETED
                     </div>
-                </div>
+                </motion.div>
             </div>
-            
+        </motion.div>
         </div>
-     );
+        </div>
+    );
 }
 
 export default Hello;
