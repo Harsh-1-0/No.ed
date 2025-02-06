@@ -5,11 +5,9 @@ import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Navbar from "@/component/sidenavbar";
-import Loading from "@/component/loading";
-import { json } from "stream/consumers";
 function Hello() {
 
-    const [output, setOutput] = useState({ answer: [{topic:" ",outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "},{topic:" ",subtopics:[" "," "," "," "," "," "],outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "},{topic : " ",outcome_of_learning_30_words:" "},{topic:" ",outcome_of_learning_30_words:" "}] });
+    const [output, setOutput] = useState({ answer: [{topic:" ",outcome:" "},{topic:" ",outcome:" "},{topic:" ",subtopics:[" "," "," "," "," "," "],outcome:" "},{topic:" ",outcome:" "},{topic : " ",outcome:" "},{topic:" ",outcome:" "}] });
   const [data, setData1] = useState(null);
 
     const searchParams = useSearchParams();
@@ -33,7 +31,7 @@ function Hello() {
     const fetchData = async () => {
 
         try {
-          if(!localStorage.getItem("roadMap")){
+          if(!localStorage.getItem("result")){
           console.log("Data",data)
             const response = await axios.post(
                 "http://3.108.217.83:5000/roadmap", 
@@ -46,10 +44,10 @@ function Hello() {
             );
             console.log(response);
             setOutput(response.data);
-            localStorage.setItem("roadMap",JSON.stringify(response.data));
+            localStorage.setItem("result", JSON.stringify(response.data));
           }else{
-            setOutput(localStorage.getItem("roadMap"));
-          }
+            setOutput(JSON.parse(localStorage.getItem("result")!));
+          } 
         } catch (err) {
             console.log("Error fetching data:", err);
         }
@@ -102,8 +100,8 @@ function Hello() {
             Loading....
         </motion.div>
     );
-    if(!output.answer[0].subtopics){
-      return <Loading/>
+    if(!output){
+      return <div>Loading...</div>
     }
     return ( 
       <div className="flex gap-x-28">
@@ -128,15 +126,15 @@ function Hello() {
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Subtopics</div>
                        <ul className="list-disc list-inside font-tripSansMono">
-    {output.answer[0]?.subtopics?.slice(0, 6).map((subtopic, key) => (
-        <li key={key}>{subtopic}</li>
-    ))}
-</ul>
+                            {output.answer[0]?.subtopics?.slice(0, 6).map((subtopic, key) => (
+                                <li key={key}>{subtopic}</li>
+                            ))}
+                        </ul>
 
                     </div>
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
-                        <div className="font-tripSansMono">{output.answer[0]?.outcome_of_learning_30_words}</div>
+                        <div className="font-tripSansMono">{output.answer[0].outcome}</div>
                     </div>
                 </motion.div>
                 <motion.div 
@@ -148,7 +146,7 @@ function Hello() {
                     <div className="text-5xl font-tripSansBold tracking-tight font-bold">{output.answer[1]?.topic}</div>
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
-                        <div className="font-tripSansMono">{output.answer[0]?.outcome_of_learning_30_words}</div>
+                        <div className="font-tripSansMono">{output.answer[0].outcome}</div>
                     </div>
                 </motion.div>
             </div>
@@ -178,7 +176,7 @@ function Hello() {
                     </div>
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
-                        <div className="font-tripSansMono">{output.answer[3]?.outcome_of_learning_30_words}</div>
+                        <div className="font-tripSansMono">{output.answer[3].outcome}</div>
                     </div>
                 </motion.div>
                 <motion.div 
@@ -208,7 +206,7 @@ function Hello() {
                     </div>
                     <div>
                         <div className="font-tripSansMono font-bold text-3xl">Outcome</div>
-                        <div className="font-tripSansMono">{output.answer[5]?.outcome_of_learning_30_words}</div>
+                        <div className="font-tripSansMono">{output.answer[5].outcome}</div>
                     </div>
                 </motion.div>
                 

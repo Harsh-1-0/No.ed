@@ -7,7 +7,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Content() {
-    const [data, setData] = useState({courses_courses: [],projects_to_do :[], duration: "", topic: ""});
+    const [data, setData] = useState({courses: [],projects :[], duration: "", topic: ""});
     const searchParams = useSearchParams();
   
     useEffect(() => {
@@ -97,7 +97,7 @@ function Content() {
                 <motion.div variants={itemVariants} className="bg-white border border-black rounded-lg ">
                     <div className="text-white flex justify-evenly flex-wrap py-2">
                         <AnimatePresence>
-                            {data.courses_courses.map((course: any, index: number) => (
+                            {data.courses.map((course: any, index: number) => (
                                 <motion.div 
                                     key={index} 
                                     initial={{ opacity: 0, scale: 0.5 }}
@@ -123,7 +123,7 @@ function Content() {
                 <motion.div variants={itemVariants} className="bg-white border border-black rounded-lg ">
                     <div className="text-white flex justify-evenly flex-wrap py-2">
                         <AnimatePresence>
-                            {data.projects_to_do.map((course: any, index: number) => (
+                            {data.projects.map((course: any, index: number) => (
                                 <motion.div 
                                     key={index} 
                                     initial={{ opacity: 0, scale: 0.5 }}
