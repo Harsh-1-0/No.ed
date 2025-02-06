@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import upload from '../../../public/upload.png';
 import github from '../../../public/github.png';
-
+import axios  from 'axios';
+import { useSearchParams } from 'next/navigation';
 interface TagSelectorProps {
     onComplete?: (tags: string[]) => void;
 }
@@ -14,8 +15,21 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
     const [resume, setResume] = useState<File | null>(null);
     const [githubLink, setGithubLink] = useState<string>('');
     const [loading, setLoading] = useState(false);
+    const [role,setRole] = useState<string>('');
     const router = useRouter();
+    const searchParams = useSearchParams();
+    useEffect(() => {
+        const role = searchParams.get("selectedTag");
 
+        try {
+         
+            if (role) {
+                setRole(role);
+            }
+        } catch (error) {
+            console.error("Error parsing JSON:", error);
+        }
+    }, [searchParams]);
     const handleResumeUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             setResume(event.target.files[0]);
@@ -26,18 +40,28 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
         setGithubLink(event.target.value);
     };
 
-    const handleNext = () => {
-        if (!resume || !githubLink) return;
+    const handleNext = async () => {
+    if (!resume || !githubLink) return;
 
-        setLoading(true);
+    setLoading(true);
 
-        // Simulate an API request or processing
-        setTimeout(() => {
-            setLoading(false);
-            // Use template string to build the URL with the query parameter
-            router.push(`/roles?resume=${encodeURIComponent(resume?.name || '')}&githubLink=${encodeURIComponent(githubLink)}`);
-        }, 1000);
-    };
+    try {
+        const formData = new FormData();
+        formData.append("pdf", resume); // Append file correctly
+
+        const response = await axios.post("http://localhost:8080/pdfparse", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data" // Required for file upload
+            }
+        });
+        router.push(`/home?data=${encodeURIComponent(response.data.data)}&github=${encodeURIComponent(githubLink)}&role=${encodeURIComponent(role)}`);
+    } catch (err) {
+        console.error("Error uploading file:", err.response?.data || err.message);
+    } finally {
+        setLoading(false);
+    }
+};
+
 
     return (
         <div className="w-full flex flex-col min-h-screen bg-white">
@@ -87,7 +111,8 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
                             <h3>Github Link</h3>
                             <input
                                 type="text"
-                                className="p-4 rounded-xl bg-transparent border-black border-4 mt-2 "
+                                placeholder='Enter your Github ID'
+                                className="p-4 placeholder:text-black rounded-xl bg-transparent border-black border-4 mt-2 "
                                 value={githubLink}
                                 onChange={handleGithubLinkChange}
                             />

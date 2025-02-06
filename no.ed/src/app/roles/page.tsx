@@ -38,7 +38,7 @@ const RoleSelector: React.FC<TagSelectorProps> = () => {
         setShowModal(false); // Close the modal
 
         // Use template string to build the URL with the query parameter
-        router.push(`/roles?selectedTag=${encodeURIComponent(selectedTag!)}`);
+        router.push(`/details?selectedTag=${encodeURIComponent(selectedTag!)}`);
     };
 
     const handleCancel = () => {
@@ -49,7 +49,7 @@ const RoleSelector: React.FC<TagSelectorProps> = () => {
         <div className="w-full flex flex-col min-h-screen bg-white">
             <div className="mb-4 text-center pt-6 pb-6">
                 <h1 className="font-tripSansMono text-2xl pb-2">
-                    Here's what we think on your future career
+                    {"Here's what we think on your future career"}
                 </h1>
                 <h1 className="text-8xl font-bold flex items-center justify-center">
                     Choose
