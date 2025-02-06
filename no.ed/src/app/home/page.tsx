@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import Navbar from "@/component/sidenavbar";
-import { div } from "framer-motion/client";
 function Hello({ data }) {
     const [output, setData] = useState({
   "answer": [
@@ -188,7 +187,7 @@ function Hello({ data }) {
     );
 
     return ( 
-      <div className="flex">
+      <div className="flex gap-x-28">
         <div>
         <Navbar/>
         </div>
@@ -197,7 +196,7 @@ function Hello({ data }) {
             initial="hidden"
             animate="visible"
             variants={containerVariants}
-            className="flex py-8 rounded bg-white border-black border-5 items-center justify-center h-screen"
+            className="flex py-8 px-4  rounded bg-white border-black border-5 items-center justify-center h-screen"
         >
             <div className="w-1/3 h-full bg-black flex flex-col items-center justify-center">
                 <motion.div 
