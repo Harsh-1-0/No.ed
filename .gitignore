@@ -1,3 +1,4 @@
+
 /no.ed/node_modules
 /backend/node_modules
 /backend/.env
@@ -5,3 +6,4 @@
 /backend/parser/node_modules
 /backend/parser/.env
 .vercel
+
