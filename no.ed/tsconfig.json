@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/component/Pdfparsing.tsx", "src/app/page.tsx", "src/component/sidenavbar.jsx"],
   "exclude": ["node_modules"]
 }
