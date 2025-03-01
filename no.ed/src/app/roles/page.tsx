@@ -36,7 +36,7 @@ const RoleSelector: React.FC<TagSelectorProps> = () => {
 
     const handleConfirm = () => {
         setShowModal(false); // Close the modal
-
+        localStorage.setItem("role",selectedTag!); // Save the selected role to local storage
         // Use template string to build the URL with the query parameter
         router.push(`/details?selectedTag=${encodeURIComponent(selectedTag!)}`);
     };
