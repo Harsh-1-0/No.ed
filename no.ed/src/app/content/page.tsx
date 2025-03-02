@@ -1,10 +1,13 @@
 "use client";
+
 import Image from "next/image";
 import crossImage from "@/images/chipchop.png";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+
+export const dynamic = "force-dynamic"; // Ensures dynamic rendering
 
 function Content() {
   const [data, setData] = useState({
@@ -13,29 +16,32 @@ function Content() {
     duration: "",
     topic: "",
   });
+
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const response = searchParams.get("data");
+    if (searchParams) {
+      const response = searchParams.get("data");
 
-    try {
-      if (response) {
-        setData(JSON.parse(response));
+      try {
+        if (response) {
+          setData(JSON.parse(response));
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
       }
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
     }
   }, [searchParams]);
 
   if (!data) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        ></motion.div>
-      </Suspense>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        Loading....
+      </motion.div>
     );
   }
 
@@ -86,7 +92,7 @@ function Content() {
               />
             </motion.div>
           </div>
-          <div className="flex bg-white w-full flex-col gap-4 p-4 rounded-lg border border-black ">
+          <div className="flex bg-white w-full flex-col gap-4 p-4 rounded-lg border border-black">
             <motion.div
               variants={itemVariants}
               className="text-5xl font-tripSansBold tracking-tight font-bold"
@@ -102,17 +108,18 @@ function Content() {
           </div>
         </motion.div>
 
+        {/* Recommended Courses Section */}
         <motion.div
           variants={itemVariants}
-          className="bg-white border p-2 border-black rounded-lg "
+          className="bg-white border p-2 border-black rounded-lg"
         >
-          <div className="text-5xl font-tripSansBold tracking-tight font-bold ">
+          <div className="text-5xl font-tripSansBold tracking-tight font-bold">
             RECOMMENDED COURSES
           </div>
         </motion.div>
         <motion.div
           variants={itemVariants}
-          className="bg-white border border-black rounded-lg "
+          className="bg-white border border-black rounded-lg"
         >
           <div className="text-white flex justify-evenly flex-wrap py-2">
             <AnimatePresence>
@@ -138,21 +145,22 @@ function Content() {
           </div>
         </motion.div>
 
+        {/* Possible Projects Section */}
         <motion.div
           variants={itemVariants}
-          className="bg-white border p-2 border-black rounded-lg "
+          className="bg-white border p-2 border-black rounded-lg"
         >
-          <div className="text-5xl font-tripSansBold tracking-tight font-bold ">
+          <div className="text-5xl font-tripSansBold tracking-tight font-bold">
             POSSIBLE PROJECTS
           </div>
         </motion.div>
         <motion.div
           variants={itemVariants}
-          className="bg-white border border-black rounded-lg "
+          className="bg-white border border-black rounded-lg"
         >
           <div className="text-white flex justify-evenly flex-wrap py-2">
             <AnimatePresence>
-              {data.projects.map((course: string, index: number) => (
+              {data.projects.map((project: string, index: number) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -161,7 +169,7 @@ function Content() {
                   transition={{ duration: 0.3 }}
                   className="card p-6 m-2 bg-[#002469] rounded-lg shadow-lg"
                 >
-                  <div className="text-lg font-semibold">{course}</div>
+                  <div className="text-lg font-semibold">{project}</div>
                 </motion.div>
               ))}
             </AnimatePresence>
