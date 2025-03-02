@@ -3,7 +3,7 @@
 import Image from "next/image";
 import crossImage from "@/images/chipchop.png";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -180,4 +180,10 @@ function Content() {
   );
 }
 
-export default Content;
+export default function ContentWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Content />
+    </Suspense>
+  );
+}
