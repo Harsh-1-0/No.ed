@@ -46,11 +46,11 @@ function Job() {
             key={index}
             className="w-72 p-4 border rounded-lg shadow-md transition-all duration-500 group hover:bg-[#000000] hover:shadow-lg"
           >
-            <div className="cursor-pointer text-lg font-semibold text-[#0077B5] group-hover:underline">
-              <Link href={job} target="_blank">
+            <Link href={job} target="_blank">
+              <div className="cursor-pointer text-lg font-semibold text-[#0077B5] group-hover:underline">
                 {split(job)}
-              </Link>
-            </div>
+              </div>
+            </Link>
           </div>
         ))}
       </div>

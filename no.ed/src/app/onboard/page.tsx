@@ -79,7 +79,7 @@ const TagSelector: React.FC<TagSelectorProps> = ({ onComplete }) => {
       <div className="mb-4 text-center pt-6 pb-6">
         <h1 className="font-tripSansMono text-2xl pb-2">
           {" "}
-          We need to learn what you're interested in{" "}
+          We need to learn what {"you're"} interested in{" "}
         </h1>
         <h1 className="text-8xl font-bold flex items-center justify-center">
           Pick

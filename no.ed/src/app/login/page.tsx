@@ -4,13 +4,14 @@ import buttonLogo from "@/images/logoButton.png";
 import Image from "next/image";
 import axios from "axios";
 import { auth, provider, signInWithPopup } from "@/component/firebase";
+import { useRouter } from "next/navigation";
 
 function Login() {
+  const router = useRouter();
   const handleLogIn = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const idToken1 = await result.user.getIdToken();
-      console.log(idToken1);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/users/google`,
         {},
@@ -20,7 +21,11 @@ function Login() {
           },
         }
       );
-      console.log(response);
+      localStorage.setItem("No.de_token", response.data.token);
+
+      if (response.status === 200) {
+        router.push("/onboard");
+      }
     } catch (err) {
       console.log(err);
     }
