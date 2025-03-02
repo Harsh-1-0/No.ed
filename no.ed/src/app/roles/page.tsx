@@ -5,11 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import chipchop from '../../../public/chipchop.png';
 
-interface TagSelectorProps {
-    onComplete?: (tags: string[]) => void;
-}
-
-const RoleSelector: React.FC<TagSelectorProps> = () => {
+const RoleSelector: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [roles, setRoles] = useState<{ role: string }[]>([]);
