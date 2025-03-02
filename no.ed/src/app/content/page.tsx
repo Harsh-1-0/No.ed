@@ -2,7 +2,7 @@
 import Image from "next/image";
 import crossImage from "@/images/chipchop.png";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -29,13 +29,13 @@ function Content() {
 
   if (!data) {
     return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        Loading....
-      </motion.div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        ></motion.div>
+      </Suspense>
     );
   }
 
