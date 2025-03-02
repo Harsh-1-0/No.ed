@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import { motion } from "framer-motion";
@@ -16,7 +16,9 @@ function Hello() {
       { topic: " ", outcome: " " },
     ],
   });
-  const [data, setData1] = useState<{ resume: string; role: string } | null>(null);
+  const [data, setData1] = useState<{ resume: string; role: string } | null>(
+    null
+  );
 
   const searchParams = useSearchParams();
 
@@ -295,4 +297,10 @@ function Hello() {
   );
 }
 
-export default Hello;
+export default function Roadmap() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Hello />
+    </Suspense>
+  );
+}
