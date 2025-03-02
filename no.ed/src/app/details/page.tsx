@@ -7,11 +7,7 @@ import upload from "../../../public/upload.png";
 import github from "../../../public/github.png";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-interface TagSelectorProps {
-  onComplete?: (tags: string[]) => void;
-}
-
-const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
+const Details: React.FC = () => {
   const [resume, setResume] = useState<File | null>(null);
   const [githubLink, setGithubLink] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -67,7 +63,7 @@ const Details: React.FC<TagSelectorProps> = ({ onComplete }) => {
         )}`
       );
     } catch (err) {
-      console.error("Error uploading file:", err.response?.data || err.message);
+      console.error("Error uploading file:", err);
     } finally {
       setLoading(false);
     }

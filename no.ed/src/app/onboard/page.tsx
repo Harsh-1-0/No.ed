@@ -3,11 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-interface TagSelectorProps {
-  onComplete?: (tags: string[]) => void;
-}
-
-const TagSelector: React.FC<TagSelectorProps> = ({ onComplete }) => {
+const TagSelector: React.FC = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();

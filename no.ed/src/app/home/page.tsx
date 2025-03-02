@@ -16,7 +16,7 @@ function Hello() {
       { topic: " ", outcome: " " },
     ],
   });
-  const [data, setData1] = useState(null);
+  const [data, setData1] = useState<{ resume: string; role: string } | null>(null);
 
   const searchParams = useSearchParams();
 
@@ -25,9 +25,8 @@ function Hello() {
     const role = searchParams.get("role");
 
     try {
-      console.log(role);
       if (response) {
-        setData1({ resume: String(response), role: role });
+        setData1({ resume: String(response), role: role || "" });
       }
     } catch (error) {
       console.error("Error parsing JSON:", error);
@@ -87,6 +86,7 @@ function Hello() {
   }, [data]);
 
   const router = useRouter();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClick = (data: any) => {
     const query = encodeURIComponent(JSON.stringify(data));
     router.push(`/content?data=${query}`);
