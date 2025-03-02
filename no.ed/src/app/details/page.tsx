@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import upload from "../../../public/upload.png";
 import github from "../../../public/github.png";
 import axios from "axios";
 
-const Details: React.FC = () => {
+const DetailsComponent: React.FC = () => {
   const [resume, setResume] = useState<File | null>(null);
   const [githubLink, setGithubLink] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -137,5 +137,11 @@ const Details: React.FC = () => {
     </div>
   );
 };
+
+const Details: React.FC = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <DetailsComponent />
+  </Suspense>
+);
 
 export default Details;
