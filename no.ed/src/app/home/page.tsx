@@ -49,8 +49,8 @@ function Hello() {
         );
         
         console.log("Data available:", dataAvaliable.data);
-        
-        if (dataAvaliable.data.roadMap && dataAvaliable.data.roadMap.length > 0) {
+        const userData = dataAvaliable.data;
+        if (userData[0].roadMap && userData[0].roadMap.length > 0) {
           setOutput(dataAvaliable.data.roadMap);
           return; // Exit function to prevent unnecessary API calls
         }
