@@ -106,8 +106,8 @@ function Hello() {
   
 
   const router = useRouter();
-  // eslint-disabl    -li  typeript  int/no-explicit-any
-  const handleClick= (data: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleClick = (data: any) => {
     const query = encodeURIComponent(JSON.stringify(data));
     router.push(`/content?data=${query}`);
   };
