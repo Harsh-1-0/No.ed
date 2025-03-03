@@ -38,6 +38,7 @@ function Hello() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        
         const dataAvaliable = await axios.get(
           `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/roadmap`,
           {
@@ -46,47 +47,55 @@ function Hello() {
             },
           }
         );
-        if (dataAvaliable.data.roadMap) {
+  
+        
+        if (dataAvaliable.data.roadMap && dataAvaliable.data.roadMap.length > 0) {
           setOutput(dataAvaliable.data.roadMap);
-        } else {
-          const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_AGENT_API_URL}/roadmap`,
-            data,
-            {
-              headers: {
-                "Content-Type": "application/json", // Set the correct header for JSON
-              },
-            }
-          );
-
-          setOutput(response.data);
-          console.log(response.data);
-          const role = localStorage.getItem("role") || "";
-          const dataForRoadMap = {
-            role,
-            roadMap: response.data.answer, 
-          };
-
-          const responseForDb = await axios.post(
-            `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/roadmap`,
-            JSON.stringify(dataForRoadMap), // Convert to JSON string
-            {
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("No.de_token")}`,
-              },
-            }
-          );
-
-          console.log(responseForDb.data);
+          return; // Exit function to prevent unnecessary API calls
         }
+  
+        
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_AGENT_API_URL}/roadmap`,
+          data,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        
+        setOutput(response.data);
+        console.log("Generated roadmap:", response.data);
+  
+        
+        const role = localStorage.getItem("role") || "";
+        const dataForRoadMap = {
+          role,
+          roadMap: response.data.answer, 
+        };
+  
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/roadmap`,
+          JSON.stringify(dataForRoadMap),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("No.de_token")}`,
+            },
+          }
+        );
+  
+        console.log("Roadmap saved to DB successfully");
       } catch (err) {
-        console.log("Error fetching data:", err);
+        console.error("Error fetching/saving data:", err);
       }
     };
-
-    if (data != null) fetchData();
+  
+    if (data) fetchData();
   }, [data]);
+  
 
   const router = useRouter();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
