@@ -52,7 +52,12 @@ function Hello() {
         const userData = dataAvaliable.data;
 
         if (userData[0] && userData[0].roadMap && userData[0].roadMap.length > 0) {
-          setOutput(userData[0].roadMap);
+          // setOutput format
+          const data ={
+            "answer": userData[0].roadMap
+          }
+          setOutput(data);
+          console.log("Data fetched from DB:", data);
           return; // Exit function to prevent unnecessary API calls
         }
   
@@ -98,10 +103,11 @@ function Hello() {
     if (data) fetchData();
   }, [data]);
   
+ta      
 
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleClick = (data: any) => {
+  // eslint-disabl    -li  typeript  int/no-explicit-any
+  cst handleClic= (data: any) => {
     const query = encodeURIComponent(JSON.stringify(data));
     router.push(`/content?data=${query}`);
   };
