@@ -50,7 +50,7 @@ function Hello() {
         
         console.log("Data available:", dataAvaliable.data);
         const userData = dataAvaliable.data;
-
+        console.log("User data:", userData[0]);
         if (userData[0] && userData[0].roadMap && userData[0].roadMap.length > 0) {
           // setOutput format
           const data ={
