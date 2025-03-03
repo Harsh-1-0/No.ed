@@ -46,8 +46,8 @@ function Hello() {
             },
           }
         );
-        if (dataAvaliable.data.roadmap) {
-          setOutput(dataAvaliable.data.roadmap);
+        if (dataAvaliable.data.roadMap) {
+          setOutput(dataAvaliable.data.roadMap);
         } else {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_AGENT_API_URL}/roadmap`,
