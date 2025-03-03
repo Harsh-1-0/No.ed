@@ -52,7 +52,7 @@ function Hello() {
         const userData = dataAvaliable.data;
 
         if (userData[0] && userData[0].roadMap && userData[0].roadMap.length > 0) {
-          setOutput(dataAvaliable.data.roadMap);
+          setOutput(userData[0].roadMap);
           return; // Exit function to prevent unnecessary API calls
         }
   
