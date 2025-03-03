@@ -64,7 +64,7 @@ function Hello() {
           const dataForRoadMap = new FormData();
           const role = localStorage.getItem("role") || "";
           dataForRoadMap.append("role", role);
-            dataForRoadMap.append("roadMap", JSON.stringify(response.data.answer));
+            dataForRoadMap.append("roadMap", response.data.answer);
 
           const responseForDb = await axios.post(
             `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/roadmap`,
