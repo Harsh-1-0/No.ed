@@ -47,9 +47,10 @@ function Hello() {
             },
           }
         );
-  
         
-        if (dataAvaliable.data[0].roadMap && dataAvaliable.data[0].roadMap.length > 0) {
+        console.log("Data available:", dataAvaliable.data);
+        
+        if (dataAvaliable.data.roadMap && dataAvaliable.data.roadMap.length > 0) {
           setOutput(dataAvaliable.data.roadMap);
           return; // Exit function to prevent unnecessary API calls
         }
