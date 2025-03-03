@@ -61,14 +61,15 @@ function Hello() {
 
           setOutput(response.data);
           console.log(response.data);
-          const dataForRoadMap = new FormData();
           const role = localStorage.getItem("role") || "";
-          dataForRoadMap.append("role", role);
-            dataForRoadMap.append("roadMap", response.data.answer);
+          const dataForRoadMap = {
+            role,
+            roadMap: response.data.answer, 
+          };
 
           const responseForDb = await axios.post(
             `${process.env.NEXT_PUBLIC_STORAGE_API_URL}/api/roadmap`,
-            dataForRoadMap,
+            JSON.stringify(dataForRoadMap), // Convert to JSON string
             {
               headers: {
                 "Content-Type": "application/json",
@@ -77,7 +78,7 @@ function Hello() {
             }
           );
 
-          console.log(responseForDb);
+          console.log(responseForDb.data);
         }
       } catch (err) {
         console.log("Error fetching data:", err);
