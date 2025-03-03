@@ -50,8 +50,9 @@ function Hello() {
         
         console.log("Data available:", dataAvaliable.data);
         const userData = dataAvaliable.data;
-        console.log("User data:", userData[0]);
-        if (userData[0] && userData[0].roadMap && userData[0].roadMap.length > 0) {
+        console.log("User data:", userData);
+        if (userData.length > 0 && userData[0].roadMap && userData[0].roadMap.length > 0) {
+          console.log("User data:", userData[0]);
           // setOutput format
           const data ={
             answer: userData[0].roadMap,
