@@ -54,7 +54,7 @@ function Hello() {
         if (userData[0] && userData[0].roadMap && userData[0].roadMap.length > 0) {
           // setOutput format
           const data ={
-            "answer": userData[0].roadMap
+            answer: userData[0].roadMap,
           }
           setOutput(data);
           console.log("Data fetched from DB:", data);
@@ -103,11 +103,10 @@ function Hello() {
     if (data) fetchData();
   }, [data]);
   
-ta      
 
   const router = useRouter();
   // eslint-disabl    -li  typeript  int/no-explicit-any
-  cst handleClic= (data: any) => {
+  const handleClick= (data: any) => {
     const query = encodeURIComponent(JSON.stringify(data));
     router.push(`/content?data=${query}`);
   };
