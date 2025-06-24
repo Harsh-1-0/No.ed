@@ -51,15 +51,9 @@ No.ed leverages cutting-edge technologies to deliver its personalized career gui
     * HTML Resume Template
     * Project Idea Database
 
-*(Note: Specific programming languages, frameworks, and detailed libraries for the AI models and backend/frontend are not explicitly mentioned in the provided information or found through external searches of the repository content.)*
-
 ---
 
 ## Installation & Setup Instructions
-
-*(Specific installation and setup instructions are not available in the provided information or easily discoverable from the given GitHub link without direct repository access.)*
-
-Generally, for a web-based AI platform, the setup would involve:
 
 1.  **Cloning the Repository:**
     ```bash
