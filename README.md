@@ -1,6 +1,6 @@
 # No.ed (pronounced "Node")
 
-![No.ed Logo Placeholder](https://via.placeholder.com/400x200?text=No.ed+Logo)
+![image](https://github.com/user-attachments/assets/d9519670-d152-4c93-ad64-43cb0d2020e7)
 
 ---
 
